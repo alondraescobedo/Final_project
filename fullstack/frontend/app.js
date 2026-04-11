@@ -1,4 +1,4 @@
-const API_URL = 'http://127.0.0.1:3000/api/books/';
+const API_URL = 'http://localhost:3000/api/books/';
 
 let toDoList = [];
 let editBookModal;
