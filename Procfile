@@ -1,1 +1,1 @@
-web: cd fullstack && node backend/server.js
+web: cd fullstack && node fullstack/backend/server.js
