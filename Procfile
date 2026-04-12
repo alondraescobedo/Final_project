@@ -1,0 +1,1 @@
+web: cd fullstack && node backend/server.js
