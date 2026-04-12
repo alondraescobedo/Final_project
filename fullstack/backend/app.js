@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const booksRoutes = require('./routes/booksRoutes');
 
 const app = express();
@@ -16,5 +17,13 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/books', booksRoutes);
+
+
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
 
 module.exports = app;
