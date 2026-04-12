@@ -55,11 +55,11 @@ The application is fully configured for cloud deployment, utilizing **Railway** 
 
 This application is built to be seamlessly deployed across two distinct cloud platforms:
 
-### 1. Backend & Database Deployment (Railway)
-**Railway** handles both the managed MySQL database instance and the Node.js backend.
-- The `railway.toml` file automatically triggers the build process.
-- The MySQL database is provisioned first, and its built-in environment variables (like `MYSQLHOST`, `MYSQLUSER`) are exposed to the Express application via the `dotenv` package in `backend/config/db.js`.
-- Railway automatically installs dependencies and runs the `startCommand` defined in the configuration. 
+### 1. Backend Deployment (Render) & Database (Railway)
+**Render** hosts the Node.js Express API, while **Railway** manages the MySQL database instance.
+- The MySQL database is provisioned in Railway, and its connection variables are injected manually into Render.
+- Render automatically connects to GitHub, runs `npm install`, and starts the server via `npm start`.
+- The Node API makes external requests to Railway's public MySQL proxy to retrieve data seamlessly.
 
 ### 2. Frontend Deployment (Vercel)
 **Vercel** hosts the static frontend UI. 
