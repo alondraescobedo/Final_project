@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "fullstack/backend/server.js",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node fullstack/backend/server.js",
-    "dev": "nodemon fullstack/backend/server.js"
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
   },
   "keywords": [],
   "author": "",

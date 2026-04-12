@@ -6,7 +6,7 @@ const booksRoutes = require('./routes/booksRoutes');
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost',
+    origin: process.env.FRONTEND_URL || '*',
     credentials: true
 }));
 
