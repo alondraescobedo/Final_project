@@ -17,5 +17,5 @@ CREATE TABLE IF NOT EXISTS books (
 -- Insert some sample data (optional)
 INSERT INTO books ( name, genre, inLibrary) VALUES
 ('The Da Vinci Code','Thriller', true),
-('Harry Potter and the Philosophers Stone','Fantasy', false)
+('Harry Potter and the Philosophers Stone','Fantasy', false),
 ('Pride and Prejudice','Novel', true);
