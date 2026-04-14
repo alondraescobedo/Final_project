@@ -1,13 +1,34 @@
 # Full-Stack Library Application
 
-A full-stack web application designed for managing a library collection. This project features a robust Node.js and Express backend connected to a MySQL database, paired with a dynamic vanilla JavaScript and HTML frontend. 
+A full-stack web application designed for managing a library collection. This project features a robust Node.js and Express backend connected to a MySQL database, paired with JavaScript and HTML frontend. 
 
-The application is fully configured for cloud deployment, utilizing **Railway** for the Backend and Database services, and **Vercel** for the Frontend hosting.
+The application is configured for cloud deployment, utilizing Render for the Backend API, Railway for the MySQL Database, and Vercel for the Frontend hosting.
 
 ## Project Structure
 
-- `/backend`: Contains the Node.js/Express REST API and MySQL database configuration.
-- `/frontend`: Contains the static HTML, CSS (Bootstrap), and JavaScript client interface.
+fullstack/
+  backend/
+    app.js
+    server.js
+    config/
+      db.js
+    controllers/
+      booksController.js
+    middlewares/
+      bookValidation.js
+    routes/
+      bookRoutes.js
+  frontend/
+    app.js
+    index.html
+  .env
+  package.json
+  README.md
+  database.sql
+  Procfile
+  package-lock.json
+  railway.json
+  .gitignore
 
 ## Prerequisites
 
@@ -15,53 +36,80 @@ The application is fully configured for cloud deployment, utilizing **Railway** 
 - MySQL Server installed locally
 - Git
 
-## Local Setup Instructions
+## Stack
+- Node.js (CommonJS)
+- Express
+- MySQL (mysql2)
+- dotenv
+- CORS
+Bootstrap 5 + Bootstrap Icons
 
-1. **Clone the repository:**
-   ```bash
-   git clone <your-repository-url>
-   cd Final_project/fullstack
-   ```
+## Features
+- List books
+- Add books to the library
+- Edit books
+- Remove books
+- Backend and frontend validations
 
-2. **Install Backend Dependencies:**
-   ```bash
-   cd backend
-   npm install
-   ```
+## Requirements
+- Node.js 18+
+- MySQL 8+
 
-3. **Configure Environment Variables:**
-   Create a `.env` file in the root of the project (`fullstack/.env`) with your local database credentials:
-   ```env
-   DB_HOST=localhost
-   DB_USER=root
-   DB_PASSWORD=yourpassword
-   DB_NAME=library_db
-   PORT=3000
-   ```
+## Installation
+1. Navigate to the project directory:
+      cd fullstack
+2. Install dependencies:
+      npm install
+3. Create a .env file in the root directory of fullstack:
+      DB_HOST=localhost
+      DB_PORT=3306
+      DB_USER=root
+      DB_PASSWORD=your_password
+      DB_NAME=task_manager
 
-4. **Initialize Database:**
-   Ensure your local MySQL instance is running. Create a database named `library_db` and import your schema (if applicable).
+## Railway Configuration (MySQL)
+      DB_HOST=host
+      DB_PORT=port
+      DB_USER=username
+      DB_PASSWORD=password
+      DB_NAME=database
+## Database
+CREATE DATABASE IF NOT EXISTS final_project;
+USE final_project;
+CREATE TABLE IF NOT EXISTS books (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    genre ENUM('Fiction', 'Non-Fiction', 'Poetry','Novel','Mistery','Fantasy','Science Fiction','Thriller') NOT NULL,
+    inLibrary BOOLEAN DEFAULT true,
+    lent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    returned_to TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
-5. **Start the Development Server:**
-   From the `fullstack` directory, run:
-   ```bash
-   npm run dev
-   ```
+INSERT INTO books ( name, genre, inLibrary) VALUES
+('The Da Vinci Code','Thriller', true),
+('Harry Potter and the Philosophers Stone','Fantasy', false),
+('Pride and Prejudice','Novel', true);
 
-6. **Access the Frontend:**
-   Open `http://localhost:3000` in your web browser.
+## Validations
+- Backend
+  - id: positive integer
+  - name: required, string, not empty
+  - genre: must be one of Fiction, Non-Fiction, Poetry, Novel, Mistery, Fantasy, Science Fiction, Thriller
+  - inLibrary (in PUT): boolean
+- Frontend
+  - Validation for empty Book Name field before submission
+  - Server error handling by displaying a message in a Toast
+## Endpoints
+- GET /api/books/
+- GET /api/books/:id
+- POST /api/books/
+- PUT /api/books/:id
+- DELETE /api/books/:id
 
-## Cloud Deployment Explanation
+## Explanation
 
-This application is built to be seamlessly deployed across two distinct cloud platforms:
+This application utilizes a modern multi-cloud architecture to separate the database, API, and client interface for optimal performance and scalability:
 
-### 1. Backend Deployment (Render) & Database (Railway)
-**Render** hosts the Node.js Express API, while **Railway** manages the MySQL database instance.
-- The MySQL database is provisioned in Railway, and its connection variables are injected manually into Render.
-- Render automatically connects to GitHub, runs `npm install`, and starts the server via `npm start`.
-- The Node API makes external requests to Railway's public MySQL proxy to retrieve data seamlessly.
-
-### 2. Frontend Deployment (Vercel)
-**Vercel** hosts the static frontend UI. 
-- Because the frontend is decoupled from the backend for production, the `API_URL` variable in `frontend/app.js` must be updated to precisely point to the public domain URL generated by Railway.
-- Vercel fetches, caches, and serves the static files asynchronously, allowing the client side to remain highly performant and globally available. The backend has been configured to accept Cross-Origin Resource Sharing (CORS) from Vercel's domain.
+1. **Database (Railway):** The MySQL relational database is hosted on Railway using their managed MySQL plugin. Railway exposes a public TCP proxy endpoint that allows the backend to securely connect to the database from anywhere.
+2. **Backend API (Render):** The Node.js/Express server is deployed as a Web Service on Render. Render automatically pulls the latest code from the `master` branch in GitHub, installs all dependencies (`npm install`), and starts the server. It securely connects to the Railway database using injected Environment Variables (`DB_HOST`, `DB_PASSWORD`, etc).
+3. **Frontend Client (Vercel):** The static HTML, CSS (Bootstrap), and JavaScript files are hosted on Vercel's Edge Network. Vercel acts as a global CDN, delivering the frontend instantly to users without the need for a server. The frontend's `app.js` is configured to communicate with the Render API via RESTful requests, with CORS policies properly configured.
