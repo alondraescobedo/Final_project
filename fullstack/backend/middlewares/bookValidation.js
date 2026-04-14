@@ -1,4 +1,4 @@
-const VALID_PRIORITIES = ['Fiction', 'Non-Fiction', 'Poetry','Novel','Mistery','Fantasy','Science Fiction','Thriller'];
+const VALID_PRIORITIES = ['Fiction', 'Non-Fiction', 'Poetry', 'Novel', 'Mistery', 'Fantasy', 'Science Fiction', 'Thriller'];
 
 const validateId = (req, res, next) => {
     const id = Number(req.params.id);
@@ -8,7 +8,6 @@ const validateId = (req, res, next) => {
             error: 'El parámetro "id" debe ser un número entero positivo.'
         });
     }
-
     next();
 };
 
@@ -26,7 +25,6 @@ const validateBookBody = (req, res, next) => {
             error: `El campo "genre" debe ser uno de: ${VALID_PRIORITIES.join(', ')}.`
         });
     }
-
     next();
 };
 
@@ -38,7 +36,6 @@ const validateInLibrary = (req, res, next) => {
             error: 'El campo "inLibrary" debe ser un booleano.'
         });
     }
-
     next();
 };
 
